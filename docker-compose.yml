@@ -1,0 +1,62 @@
+version: '3.1'
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - adsite
+
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - adsite
+
+  db:
+    image: percona
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=adsite
+      - MYSQL_USER=adsite
+      - MYSQL_PASSWORD=adsite
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - 3306:3306
+    networks:
+      - adsite
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/var/lib/redis
+    networks:
+      - adsite
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - adsite
+
+volumes:
+  mysql:
+  redis:
+
+networks:
+  adsite:

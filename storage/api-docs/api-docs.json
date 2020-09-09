@@ -1,0 +1,106 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Ad site API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/ads": {
+            "get": {
+                "tags": [
+                    "Ads"
+                ],
+                "summary": "Get list of ads",
+                "operationId": "App\\Http\\Controllers\\AdController::index",
+                "parameters": [
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "item sort",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "AdResponse",
+                                    "description": "Ad response",
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Ad"
+                                            }
+                                        },
+                                        "first_page_url": {
+                                            "type": "string"
+                                        },
+                                        "from": {
+                                            "type": "integer"
+                                        },
+                                        "next_page_url": {
+                                            "type": "string"
+                                        },
+                                        "path": {
+                                            "type": "string"
+                                        },
+                                        "per_page": {
+                                            "type": "integer"
+                                        },
+                                        "prev_page_url": {
+                                            "type": "string"
+                                        },
+                                        "to": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Ad": {
+                "title": "Ad",
+                "description": "Ad model",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "link": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Ad"
+                }
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}
