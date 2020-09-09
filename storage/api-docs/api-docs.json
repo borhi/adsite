@@ -18,7 +18,23 @@
                         "in": "query",
                         "description": "item sort",
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "enum": [
+                                "created_at",
+                                "price"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "sort order",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
                         }
                     }
                 ],
@@ -69,6 +85,76 @@
                     }
                 }
             }
+        },
+        "/api/ads/{id}": {
+            "get": {
+                "tags": [
+                    "Ads"
+                ],
+                "summary": "Get ad",
+                "operationId": "App\\Http\\Controllers\\AdController::show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Ad id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Optional fields (created_at, description, images) comma separated",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ad"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/ads": {
+            "post": {
+                "tags": [
+                    "Ads"
+                ],
+                "summary": "Create ad",
+                "operationId": "App\\Http\\Controllers\\AdController::store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Ad"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -91,11 +177,33 @@
                     },
                     "price": {
                         "type": "number"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "images": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Image"
+                        }
                     }
                 },
                 "type": "object",
                 "xml": {
                     "name": "Ad"
+                }
+            },
+            "Image": {
+                "title": "Image",
+                "description": "Image model",
+                "properties": {
+                    "link": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Image"
                 }
             }
         }
