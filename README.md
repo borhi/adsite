@@ -13,3 +13,7 @@ For stop app please run
 For remove all conteiners please run
 
 `make down`
+
+Swagger url
+
+`http://localhost/api/documentation`
